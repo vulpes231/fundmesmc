@@ -14,7 +14,7 @@ const PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
     solidity: {
-        compilers: [{ version: "0.8.8" }, { version: "0.6.6" }],
+        compilers: [{ version: "0.6.6" }, { version: "0.8.8" }],
     },
     defaultNetwork: "hardhat",
     networks: {
@@ -22,6 +22,7 @@ module.exports = {
             url: SEPOLIA_URL,
             chainId: 11155111,
             accounts: [PRIVATE_KEY],
+            blockConfirmations: 6,
         },
         localhost: {
             url: "http://127.0.0.1:8545/",
