@@ -14,7 +14,7 @@ const PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
     solidity: {
-        compilers: [{ version: "0.6.6" }, { version: "0.8.8" }],
+        compilers: [{ version: "0.8.8" }],
     },
     defaultNetwork: "hardhat",
     networks: {
@@ -42,6 +42,7 @@ module.exports = {
     namedAccounts: {
         deployer: {
             default: 0,
+            1: 0,
         },
     },
 };
