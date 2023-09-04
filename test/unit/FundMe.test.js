@@ -92,4 +92,14 @@ describe("FundMe", async function () {
             );
         });
     });
+
+    describe("getfunder", async function () {
+        beforeEach(async function () {
+            await fundMe.fund({ value: sendValue });
+        });
+        it("expected to return the funder at a given index", async function () {
+            const funder = await fundMe.getFunder(0);
+            assert.equal(funder, myDeployer);
+        });
+    });
 });
