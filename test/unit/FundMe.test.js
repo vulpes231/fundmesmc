@@ -1,10 +1,12 @@
-const { assert } = require("chai");
+const { assert, expect } = require("chai");
 const { deployments, ethers, getNamedAccounts } = require("hardhat");
 
 describe("FundMe", async function () {
     let fundMe;
     let myDeployer;
     let mockV3Aggregator;
+    const sendValue = ethers.utils.parseEther("1");
+
     beforeEach(async function () {
         console.log("deploying....");
         const { deployer } = await getNamedAccounts();
@@ -35,6 +37,26 @@ describe("FundMe", async function () {
         it("sets the aggregator addresses correctly", async function () {
             const res = await fundMe.getPriceFeed();
             assert.equal(res, mockV3Aggregator.address);
+        });
+    });
+
+    describe("fund", async function () {
+        it("Fails if eth amount is low", async function () {
+            await expect(fundMe.fund()).to.be.revertedWith(
+                "You need to spend more ETH!",
+            );
+        });
+
+        it("Updates the amount data struct", async function () {
+            await fundMe.fund({ value: sendValue });
+            const res = await fundMe.getAddressToAmountFunded(myDeployer);
+            assert.equal(res.toString(), sendValue.toString());
+        });
+
+        it("Updates funders array with the sender", async function () {
+            await fundMe.fund({ value: sendValue });
+            const funder = await fundMe.getFunder(0);
+            assert.equal(funder, myDeployer);
         });
     });
 });
